@@ -1,10 +1,6 @@
-GET http://localhost:3000/ 
+GET http://localhost:3000/a
 
 ###
 
-POST  http://localhost:3000/p
+POST  http://localhost:3000/post
 
-
-{
-    "aze" : "Lex Luna"
-}

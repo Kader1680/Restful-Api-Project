@@ -33,17 +33,18 @@ app.get('/a', async (req, res)=>{
 
 
 // create one ==> POST
-app.post('/p', (req, res)=>{
+app.post('/post', async (req, res)=>{
+ 
     const Companys = new Data({
-        aze : req.body.aze
-    })
-    try {
-        const newCompany = Companys.save()
-        res.status(201).json(newCompany)
-        
-    } catch (error) {
-        res.status(400)
-    }
+        aze: "Database ",
+      })
+      try {
+        const newCompanys = Companys.save()
+        res.status(201).json(newCompanys)
+        res.send(newCompanys)
+      } catch (err) {
+        res.status(400).json({ message: err.message })
+      }
 })
 
 
@@ -61,25 +62,6 @@ app.delete('/:id', (req, res)=>{
 app.patch('/', (req, res)=>{
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // const Companys = mongoose.model('Companys', { name: String });
