@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE_URL)
 const db = mongoose.connection
 db.on('error', error=>  console.log(error))
-db.once('open', ()=> console.log('connection DataBase'))
+db.once('open', ()=> console.log('Happy Connection succesfull with mongodb'))
 
 // require folder database
 const Data = require('./models/Data')
@@ -14,14 +14,20 @@ const Data = require('./models/Data')
 
 // all api you need
 // get one    ==> GET
-// app.get('/:id', (req, res)=>{
-//     res.send("nikita")
-// })
+app.get('/ab/:id', getDatayId, async (req, res)=>{
+    // res.send(req.AllData.aze)
+    try {
+      res.send(req.params.id)
+      
+    } catch (error) {
+        send(error)
+    }
+})
 
 
 
 // get All    ==> GET
-app.get('/a', async (req, res)=>{
+app.get('/a/get',  async (req, res)=>{
     try {
         const AllData = await Data.find()
         res.send(AllData)
@@ -33,10 +39,10 @@ app.get('/a', async (req, res)=>{
 
 
 // create one ==> POST
-app.post('/post', async (req, res)=>{
- 
+app.post('/a/post', async (req, res)=>{
+
     const Companys = new Data({
-        aze: "Database ",
+        aze: "google ",
       })
       try {
         const newCompanys = Companys.save()
@@ -50,7 +56,8 @@ app.post('/post', async (req, res)=>{
 
 
 // delete one ==> DELETE
-app.delete('/:id', (req, res)=>{
+app.delete('delete/:id', getDatayId, async (req, res)=>{
+    res.datas.remove()
 
 })
 
@@ -59,26 +66,27 @@ app.delete('/:id', (req, res)=>{
 
 // update one ==> PUT
 
-app.patch('/', (req, res)=>{
+// app.patch('/', (req, res)=>{
 
-})
-
-
-// const Companys = mongoose.model('Companys', { name: String });
-
-// const comapany = ["google", "facebook", "appel", "amazoun"]
-// app.get('/', (req, res)=>{
-//     Companys.find({}, (err, comp)=>{
-//         if (err) {
-//             console.log("ererer")
-//         } else {
-//             res.json(comp)
-//         }
-//     })
-    
 // })
 
+
+async function getDatayId(req, res, next) {
+  let datas
+    try {
+      const datas = await Data.findById(req.params.id)
+      if (datas == null) {
+          return res.status(404).json({message: " makanch DATA "})
+      }
+
+    } catch (error) {
+          return res.status(500).json({message : error.message})
+    }
+
+    res.datas = datas
+    next()
+}
 app.listen(3000, 
     
-    console.log("helllow ya zebi")
+    console.log("Happy server start succesfull")
     )
